@@ -164,6 +164,7 @@ buildIOS()
 			./Configure no-asm ${TARGET} -no-shared --openssldir="/tmp/${OPENSSL_VERSION}-iOS-${ARCH}" $CUSTOMCONFIG &> "/tmp/${OPENSSL_VERSION}-iOS-${ARCH}.log"
 		fi
 	else
+		echo "ARCH for iPhone Device BUILD ==== ${ARCH}"
 		if [[ "$OPENSSL_VERSION" = "openssl-1.1.1"* ]]; then
 			# export CC="${BUILD_TOOLS}/usr/bin/gcc -arch ${ARCH}"
 			./Configure iphoneos-cross DSO_LDFLAGS=-fembed-bitcode --prefix="/tmp/${OPENSSL_VERSION}-iOS-${ARCH}" -no-shared --openssldir="/tmp/${OPENSSL_VERSION}-iOS-${ARCH}" $CUSTOMCONFIG &> "/tmp/${OPENSSL_VERSION}-iOS-${ARCH}.log"
@@ -319,7 +320,7 @@ buildIOS "arm64e"
 
 buildIOSsim "i386"
 buildIOSsim "x86_64"
-buildIOSsim "arm64"
+#buildIOSsim "arm64"
 
 echo "  Copying headers and libraries"
 cp /tmp/${OPENSSL_VERSION}-iOS-arm64/include/openssl/* iOS/include/openssl/
@@ -344,14 +345,16 @@ cp /tmp/${OPENSSL_VERSION}-iOS-Simulator-x86_64/include/openssl/* iOS-simulator/
 lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-i386/lib/libcrypto.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-x86_64/lib/libcrypto.a" \
-	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-arm64/lib/libcrypto.a" \
 	-create -output iOS-simulator/lib/libcrypto.a
+	#"/tmp/${OPENSSL_VERSION}-iOS-Simulator-arm64/lib/libcrypto.a" \
+	
 
 lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-i386/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-x86_64/lib/libssl.a" \
-	"/tmp/${OPENSSL_VERSION}-iOS-Simulator-arm64/lib/libssl.a" \
 	-create -output iOS-simulator/lib/libssl.a
+	#"/tmp/${OPENSSL_VERSION}-iOS-Simulator-arm64/lib/libssl.a" \
+	
 
 cp /tmp/${OPENSSL_VERSION}-iOS-arm64/include/openssl/* iOS-fat/include/openssl/
 
