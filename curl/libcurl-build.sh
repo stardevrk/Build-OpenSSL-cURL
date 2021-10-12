@@ -501,17 +501,17 @@ fi
 echo "Unpacking curl"
 tar xfz "${CURL_VERSION}.tar.gz"
 
-echo -e "${bold}Building Mac libraries${dim}"
-buildMac "x86_64"
-buildMac "arm64"
+# echo -e "${bold}Building Mac libraries${dim}"
+#buildMac "x86_64"
+#buildMac "arm64"
 
-echo "  Copying headers"
-cp /tmp/${CURL_VERSION}-x86_64/include/curl/* include/curl/
+# echo "  Copying headers"
+# cp /tmp/${CURL_VERSION}-x86_64/include/curl/* include/curl/
 
-lipo \
-	"/tmp/${CURL_VERSION}-x86_64/lib/libcurl.a" \
-	"/tmp/${CURL_VERSION}-arm64/lib/libcurl.a" \
-	-create -output lib/libcurl_Mac.a
+# lipo \
+	# "/tmp/${CURL_VERSION}-x86_64/lib/libcurl.a" \
+	# -create -output lib/libcurl_Mac.a
+	#"/tmp/${CURL_VERSION}-arm64/lib/libcurl.a" \
 
 if [ $catalyst == "1" ]; then
 echo -e "${bold}Building Catalyst libraries${dim}"
@@ -539,13 +539,13 @@ lipo \
 
 buildIOSsim "i386" "bitcode"
 buildIOSsim "x86_64" "bitcode"
-buildIOSsim "arm64" "bitcode"
+#buildIOSsim "arm64" "bitcode"
 
 lipo \
 	"/tmp/${CURL_VERSION}-iOS-simulator-i386-bitcode/lib/libcurl.a" \
 	"/tmp/${CURL_VERSION}-iOS-simulator-x86_64-bitcode/lib/libcurl.a" \
-	"/tmp/${CURL_VERSION}-iOS-simulator-arm64-bitcode/lib/libcurl.a" \
 	-create -output lib/libcurl_iOS-simulator.a
+	#"/tmp/${CURL_VERSION}-iOS-simulator-arm64-bitcode/lib/libcurl.a" \
 
 lipo \
 	"/tmp/${CURL_VERSION}-iOS-armv7-bitcode/lib/libcurl.a" \
@@ -584,17 +584,18 @@ lipo \
 	-create -output lib/libcurl_tvOS.a
 
 buildTVOSsim "x86_64"
-buildTVOSsim "arm64"
+#buildTVOSsim "arm64"
 
 lipo \
-	"/tmp/${CURL_VERSION}-tvOS-arm64/lib/libcurl.a" \
 	"/tmp/${CURL_VERSION}-tvOS-simulator-x86_64/lib/libcurl.a" \
 	-create -output lib/libcurl_tvOS-fat.a
+	#"/tmp/${CURL_VERSION}-tvOS-arm64/lib/libcurl.a" \
 
 lipo \
 	"/tmp/${CURL_VERSION}-tvOS-simulator-x86_64/lib/libcurl.a" \
-	"/tmp/${CURL_VERSION}-tvOS-simulator-arm64/lib/libcurl.a" \
 	-create -output lib/libcurl_tvOS-simulator.a
+	#"/tmp/${CURL_VERSION}-tvOS-simulator-arm64/lib/libcurl.a" \
+	
 
 echo -e "${bold}Cleaning up${dim}"
 rm -rf /tmp/${CURL_VERSION}-*
