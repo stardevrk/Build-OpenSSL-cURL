@@ -400,3 +400,7 @@ If you see "FATAL ERROR" during the nghttp2 build phase, this is likely due to n
 If you are on a new macOS installation and wonder why the build is failing, you might need to set the correct path for the command line tools:
 
     xcode-select --switch /Applications/Xcode.app
+    
+### RKNOTE
+
+changed for iOS build on the MacOS Bigsur
